@@ -30,37 +30,37 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
 
-    <div className="card bg-base-100 w-full shadow-lg">
+    <div className="card bg-base-100 w-full shadow-lg my-3">
       <div className="card-body p-2">
         <h2 className="card-title">miu</h2>
           <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
       </div>
     </div>
-    <div className="card bg-base-100 w-full shadow-lg">
+    <div className="card bg-base-100 w-full shadow-lg my-3">
       <div className="card-body p-2">
         <h2 className="card-title">miu</h2>
           <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
       </div>
     </div>
-    <div className="card bg-base-100 w-full shadow-lg">
+    <div className="card bg-base-100 w-full shadow-lg my-3">
       <div className="card-body p-2">
         <h2 className="card-title">miu</h2>
           <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
       </div>
     </div>
-    <div className="card bg-base-100 w-full shadow-lg">
+    <div className="card bg-base-100 w-full shadow-lg my-3">
       <div className="card-body p-2">
         <h2 className="card-title">miu</h2>
           <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
       </div>
     </div>
-    <div className="card bg-base-100 w-full shadow-lg">
+    <div className="card bg-base-100 w-full shadow-lg my-3">
       <div className="card-body p-2">
         <h2 className="card-title">miu</h2>
           <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
       </div>
     </div>
-    <div className="card bg-base-100 w-full shadow-lg">
+    <div className="card bg-base-100 w-full shadow-lg my-3">
       <div className="card-body p-2">
         <h2 className="card-title">miu</h2>
           <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
