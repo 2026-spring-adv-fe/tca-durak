@@ -51,7 +51,9 @@ function App() {
     <div className="card bg-base-100 w-full shadow-lg my-3">
       <div className="card-body p-2">
         <h2 className="card-title">miu</h2>
-          <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
+<span className="countdown font-mono text-6xl">
+  <span style={{"--value":59, "--digits":2} as React.CSSProperties } aria-live="polite">{count}</span>
+</span>
       </div>
     </div>
     <div className="card bg-base-100 w-full shadow-lg my-3">
