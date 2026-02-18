@@ -1,7 +1,7 @@
 import './App.css'
 import { HashRouter, Routes, Route} from 'react-router'
 import { Home } from './Home'
-const Setup = () => <h1>setup</h1>;
+import { Setup } from './Setup'
 const PlayPage = () => <h1>play page</h1>;
 
 
