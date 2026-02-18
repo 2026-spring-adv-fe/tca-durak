@@ -2,8 +2,7 @@ import './App.css'
 import { HashRouter, Routes, Route} from 'react-router'
 import { Home } from './Home'
 import { Setup } from './Setup'
-const PlayPage = () => <h1>play page</h1>;
-
+import { PlayPage } from './PlayPage'
 
 
 const App = () => {
