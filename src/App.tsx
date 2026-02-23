@@ -4,6 +4,8 @@ import { Home } from './Home'
 import { Setup } from './Setup'
 import { PlayPage } from './PlayPage'
 import type { GameResult } from './GameResults'
+import { getGeneralFacts } from './GameResults'
+import { useState } from 'react'
 
 const dummyGameResults: GameResult[] = [
     {
@@ -31,6 +33,10 @@ const dummyGameResults: GameResult[] = [
 
 const App = () => {
 
+  const [gameResults, setGameResults] = useState(dummyGameResults);
+  // const [gameResults, setGameResults] = useState(dummyGameResults);
+
+
   return (
 
     <div> 
@@ -39,7 +45,11 @@ const App = () => {
           <Route 
           path='/'
           element={
-            <Home />
+            <Home 
+              generalFacts={
+                getGeneralFacts(gameResults)
+              }
+            />
           }
           />
           <Route 

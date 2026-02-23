@@ -14,7 +14,7 @@ export type GeneralFacts = {
     longestGame: string;
 }
 //exported functions
-export const generalFacts = (games: GameResult[]): GeneralFacts => {
+export const getGeneralFacts = (games: GameResult[]): GeneralFacts => {
 
     if (games.length === 0) {
         return {
