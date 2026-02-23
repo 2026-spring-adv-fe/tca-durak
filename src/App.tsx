@@ -33,6 +33,16 @@ const dummyGameResults: GameResult[] = [
 
 const App = () => {
 
+  //react hooks 
+  const addNewGameResult = (gameResult: GameResult) => setGameResults(
+    [
+      ...gameResults,
+      gameResult,
+
+    ]
+  )
+
+
   const [gameResults, setGameResults] = useState(dummyGameResults);
   // const [gameResults, setGameResults] = useState(dummyGameResults);
 
@@ -61,7 +71,10 @@ const App = () => {
           <Route 
           path='/PlayPage'
           element={
-           <PlayPage />
+           <PlayPage 
+           addNewGameResult={
+              addNewGameResult 
+          }/>
           }
           />
           
