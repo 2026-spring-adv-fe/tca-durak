@@ -3,7 +3,7 @@ import { HashRouter, Routes, Route} from 'react-router'
 import { Home } from './Home'
 import { Setup } from './Setup'
 import { PlayPage } from './PlayPage'
-import { GameResult } from './GameResults'
+import type { GameResult } from './GameResults'
 
 const dummyGameResults: GameResult[] = [
     {
