@@ -68,11 +68,7 @@ export const getMostPopularFirstMove = (games: GameResult[]): string => {
     const maxCount = Math.max(...Object.values(counts));
     const mostPopular = Object.entries(counts)
         .filter(([_, count]) => count === maxCount)
-        .sort((a, b) => {
-            // Najpierw po liczbie (malejąco), potem po numerze kolumny (rosnąco)
-            if (b[1] !== a[1]) return b[1] - a[1];
-            return Number(a[0]) - Number(b[0]);
-        })
-        .map(([col, count]) => `column${col} (${count})`);
+        .map(([col, count]) => `column${col} (${count})`)
+        .sort();
     return mostPopular.join(", ");
 };
