@@ -1,13 +1,16 @@
 import { useNavigate } from "react-router";
 import type { GeneralFacts } from "./GameResults";
  type HomeProps = {
-    generalFacts: GeneralFacts
- };
+    generalFacts: GeneralFacts;
+    popularMove: string;
+};
 
 export const Home: React.FC<HomeProps> = ({
-    generalFacts
+    generalFacts,
+    popularMove
 }) => {
-    console.log(generalFacts);
+    console.log('generalFacts:', generalFacts);
+    console.log('popularMove:', popularMove);
     const nav = useNavigate();
     //code
     return (

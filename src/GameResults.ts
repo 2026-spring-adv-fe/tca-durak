@@ -59,14 +59,20 @@ export const getGeneralFacts = (games: GameResult[]): GeneralFacts => {
 export const getMostPopularFirstMove = (games: GameResult[]): string => {
     if (games.length === 0) return "N/A";
 
-    const grouped = Map.groupBy(games, game => game.firstMove);
-
-    const maxCount = Math.max(...Array.from(grouped.values()).map(arr => arr.length));
-
-    const mostPopular = Array.from(grouped.entries())
-        .filter(([_, arr]) => arr.length === maxCount)
-        .map(([col, arr]) => `column${col} (${arr.length})`)
-        .sort();
-
+    // Klasyczne grupowanie
+    const counts: Record<number, number> = {};
+    for (const game of games) {
+        const col = game.firstMove;
+        counts[col] = (counts[col] || 0) + 1;
+    }
+    const maxCount = Math.max(...Object.values(counts));
+    const mostPopular = Object.entries(counts)
+        .filter(([_, count]) => count === maxCount)
+        .sort((a, b) => {
+            // Najpierw po liczbie (malejąco), potem po numerze kolumny (rosnąco)
+            if (b[1] !== a[1]) return b[1] - a[1];
+            return Number(a[0]) - Number(b[0]);
+        })
+        .map(([col, count]) => `column${col} (${count})`);
     return mostPopular.join(", ");
 };
