@@ -1,3 +1,5 @@
+import { durationFormatter} from 'human-readable';
+
 //exported type definitions
 export type GameResult = {
     winner: string;
@@ -40,11 +42,17 @@ export const getGeneralFacts = (games: GameResult[]): GeneralFacts => {
     //     gamesLastPlayedAgoInMS
     // );
     return {
-        lastPlayed: `${mostRecentlyPlayedInMS / 1000 / 3600 / 24} days ago`,
+        lastPlayed: `${formatLastPlayed(mostRecentlyPlayedInMS)} ago`,
         totalGames: games.length,
-        shortestGame: `${Math.min(...gameDurationInMSec) / 1000 / 60}min`,
-        longestGame: `${Math.max(...gameDurationInMSec) / 1000 / 60}min`,
+        shortestGame: formatGameDuration(Math.min(...gameDurationInMSec)),
+        longestGame: formatGameDuration(Math.max(...gameDurationInMSec)),
 
     }
 };
 //helper functions
+
+const formatGameDuration = durationFormatter<string>();
+const formatLastPlayed = durationFormatter<string>({
+    allowMultiples: ["y", "mo", "d",],
+});
+
