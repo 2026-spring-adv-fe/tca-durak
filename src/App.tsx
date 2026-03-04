@@ -4,7 +4,7 @@ import { Home } from './Home'
 import { Setup } from './Setup'
 import { PlayPage } from './PlayPage'
 import type { GameResult } from './GameResults'
-import { getGeneralFacts } from './GameResults'
+import { getGeneralFacts, getLeaderboard } from './GameResults'
 import { useState } from 'react'
 
 const dummyGameResults: GameResult[] = [
@@ -58,6 +58,9 @@ const App = () => {
             <Home 
               generalFacts={
                 getGeneralFacts(gameResults)
+              }
+              leaderboard={
+                getLeaderboard(gameResults)
               }
             />
           }

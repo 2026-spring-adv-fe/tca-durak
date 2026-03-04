@@ -1,11 +1,13 @@
 import { useNavigate } from "react-router";
-import type { GeneralFacts } from "./GameResults";
+import type { GeneralFacts, LeaderboardEntry } from "./GameResults";
  type HomeProps = {
-    generalFacts: GeneralFacts
+    generalFacts: GeneralFacts,
+    leaderboard: LeaderboardEntry[],
  };
 
 export const Home: React.FC<HomeProps> = ({
-    generalFacts
+    generalFacts,
+    leaderboard,
 }) => {
     
    
@@ -43,7 +45,35 @@ export const Home: React.FC<HomeProps> = ({
                 </tbody>
             </table>
         </div>
-    </div>
+            </div>
+            <div className="card bg-base-100 w-full shadow-lg my-5">
+            <div className="card-body p-2">
+            <h2 className="card-title">Leaderboard</h2>
+            {
+                leaderboard.length === 0 
+                ? <p>No players found. </p>
+                :
+            <table className="table table-zebra">
+                <tbody>
+                    <tr>
+                        <td>Name</td>
+                        <th>Wins</th>
+                        <th>Losses</th>
+                        <th>Average</th>
+                    </tr>
+                    {leaderboard.map((entry) => (
+                        <tr key={entry.name}>
+                            <td>{entry.name}</td>
+                            <td>{entry.wins}</td>
+                            <td>{entry.losses}</td>
+                            <td>{entry.avg}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+                }
+                </div>
+            </div>
         </>
     );
 };
