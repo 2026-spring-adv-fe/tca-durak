@@ -54,6 +54,7 @@ const App = () => {
   return (
 
     <div
+    className='min-h-screen'
     data-theme={theme}
     > 
 
