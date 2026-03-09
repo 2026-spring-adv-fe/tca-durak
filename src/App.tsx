@@ -77,7 +77,6 @@ const App = () => {
           }/>
           }
           />
-          
         </Routes>
       </HashRouter>
     </div>
