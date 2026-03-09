@@ -1,7 +1,12 @@
 import { useNavigate } from "react-router";
 
-export const Setup = () => {
+type SetupProps = {
+    setTitle: (t: string) => void;
+}
+
+export const Setup: React.FC<SetupProps> = ({ setTitle }) => {
     const nav = useNavigate();
+    setTitle("Setup Screen")
     //code
     return (
         <>

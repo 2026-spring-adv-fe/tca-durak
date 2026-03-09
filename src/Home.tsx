@@ -5,14 +5,16 @@ export const APP_TITLE = "Durak Companion";
  type HomeProps = {
     generalFacts: GeneralFacts,
     leaderboard: LeaderboardEntry[],
+    setTitle: (t: string) => void;
  };
 
 export const Home: React.FC<HomeProps> = ({
     generalFacts,
     leaderboard,
+    setTitle
 }) => {
     
-   
+   setTitle(APP_TITLE);
 
     const nav = useNavigate();
     //code
