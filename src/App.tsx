@@ -50,6 +50,13 @@ const App = () => {
   return (
 
     <div> 
+
+
+      <div className="navbar bg-neutral text-neutral-content">
+         <p className='text-xl font-bold'>durak companion</p>
+      </div>
+
+
       <HashRouter>
         <Routes>
           <Route 
