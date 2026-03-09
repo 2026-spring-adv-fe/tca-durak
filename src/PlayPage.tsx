@@ -10,13 +10,13 @@ type PlayProps = {
 export const PlayPage: React.FC<PlayProps> = ({ addNewGameResult, setTitle }) => {
     const nav = useNavigate();
     const [startTimeStamp] = useState(new Date().toISOString());
-
+setTitle("Play Screen ");
     return (
         <>
             <button
                 className="btn  btn-soft btn-lg w-full lg:w-64"
                 onClick={() => {
-                    setTitle("Play Screen ");
+                    
                     addNewGameResult({
                         winner: "Snape",
                         players: ["Snape", "Dumbledore"],

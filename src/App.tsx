@@ -54,7 +54,7 @@ const App = () => {
     <div> 
 
 
-      <div className="navbar bg-neutral text-neutral-content">
+      <div className="navbar bg-neutral text-neutral-content overflow-x-hidden">
          <p className='text-xl font-bold'>{
          title}</p>
       </div>
@@ -89,10 +89,11 @@ const App = () => {
           path='/PlayPage'
           element={
            <PlayPage 
-           setTitle={setTitle}
+           
            addNewGameResult={
               addNewGameResult 
-          }/>
+          }
+          setTitle={setTitle}/>
           }
           />
           

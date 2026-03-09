@@ -24,9 +24,9 @@ export const Home: React.FC<HomeProps> = ({
             () => nav('/Setup')
         }>Setup a Game</button>
 
-            <div className="card bg-base-100 w-full shadow-lg my-5">
+            <div className="card bg-base-100 w-full shadow-lg my-5 overflow-x-scroll">
         <div className="card-body p-2">
-            <h2 className="card-title">General Facts</h2>
+            <h2 className="card-title text-nowrap">General Facts</h2>
             <table className="table table-zebra">
                 <tbody>
                     <tr>
@@ -51,7 +51,7 @@ export const Home: React.FC<HomeProps> = ({
             </div>
             <div className="card bg-base-100 w-full shadow-lg my-5">
             <div className="card-body p-2">
-            <h2 className="card-title">Leaderboard</h2>
+            <h2 className="card-title text-nowrap">Leaderboard</h2>
             {
                 leaderboard.length === 0 
                 ? <p>No players found. </p>
