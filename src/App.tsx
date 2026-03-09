@@ -57,7 +57,8 @@ const App = () => {
       </div>
 
 
-      <HashRouter>
+      <div className="p-3">
+        <HashRouter>
         <Routes>
           <Route 
           path='/'
@@ -90,6 +91,7 @@ const App = () => {
           
         </Routes>
       </HashRouter>
+      </div>
     </div>
   )
 }

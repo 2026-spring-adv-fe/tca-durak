@@ -5,8 +5,8 @@ export const Setup = () => {
     //code
     return (
         <>
-        <h1>Setup</h1>
-        <button className="btn btn-primary btn-outline" onClick={
+       
+        <button className="btn  btn-soft btn-lg w-full lg:w-64" onClick={
             () => nav('/PlayPage')
         }>Play the game</button>
         </>
