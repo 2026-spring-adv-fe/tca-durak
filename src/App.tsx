@@ -1,6 +1,6 @@
 import './App.css'
 import { HashRouter, Routes, Route} from 'react-router'
-import { Home } from './Home'
+import { APP_TITLE, Home } from './Home'
 import { Setup } from './Setup'
 import { PlayPage } from './PlayPage'
 import type { GameResult } from './GameResults'
@@ -44,6 +44,8 @@ const App = () => {
 
 
   const [gameResults, setGameResults] = useState(dummyGameResults);
+
+  const [title, setTitle] = useState(APP_TITLE);
   // const [gameResults, setGameResults] = useState(dummyGameResults);
 
 
@@ -53,11 +55,12 @@ const App = () => {
 
 
       <div className="navbar bg-neutral text-neutral-content">
-         <p className='text-xl font-bold'>durak companion</p>
+         <p className='text-xl font-bold'>{
+         title}</p>
       </div>
 
 
-      <div className="p-3">
+      <div className="p-4">
         <HashRouter>
         <Routes>
           <Route 
