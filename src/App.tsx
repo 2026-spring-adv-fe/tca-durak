@@ -6,6 +6,7 @@ import { PlayPage } from './PlayPage'
 import type { GameResult } from './GameResults'
 import { getGeneralFacts, getLeaderboard } from './GameResults'
 import { useState } from 'react'
+import localforage from 'localforage'
 
 const dummyGameResults: GameResult[] = [
     {
@@ -67,11 +68,15 @@ const App = () => {
           <label className="swap swap-rotate ml-auto">
             {/* this hidden checkbox controls the state */}
             <input type="checkbox" onClick={
-              () => setTheme(
+              async () => { 
+                const result = await localforage.setItem<string>(
+                'theme',
                 theme === "light"
                 ? "dark"
                 : "light"
-              )
+              );
+            setTheme(result);
+            }
             } />
 
             {/* sun icon */}
