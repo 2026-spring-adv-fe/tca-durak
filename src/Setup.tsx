@@ -1,12 +1,17 @@
 import { useNavigate } from "react-router";
 
-export const Setup = () => {
+type SetupProps = {
+    setTitle: (t: string) => void;
+}
+
+export const Setup: React.FC<SetupProps> = ({ setTitle }) => {
     const nav = useNavigate();
+    setTitle("Setup Screen")
     //code
     return (
         <>
-        <h1>Setup</h1>
-        <button className="btn btn-primary btn-outline" onClick={
+       
+        <button className="btn  btn-soft btn-lg w-full lg:w-64" onClick={
             () => nav('/PlayPage')
         }>Play the game</button>
         </>
