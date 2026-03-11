@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 import type { GameResult } from "./GameResults";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type PlayProps = {
     addNewGameResult: (g: GameResult) => void;
@@ -10,7 +10,10 @@ type PlayProps = {
 export const PlayPage: React.FC<PlayProps> = ({ addNewGameResult, setTitle }) => {
     const nav = useNavigate();
     const [startTimeStamp] = useState(new Date().toISOString());
-setTitle("Play Screen ");
+useEffect(
+        () => setTitle("play"),
+        [],
+    );
     return (
         <>
             <button

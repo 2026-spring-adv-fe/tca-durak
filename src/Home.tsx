@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router";
 import type { GeneralFacts, LeaderboardEntry } from "./GameResults";
+import { useEffect } from "react";
 export const APP_TITLE = "Durak Companion";
 
  type HomeProps = {
@@ -13,9 +14,10 @@ export const Home: React.FC<HomeProps> = ({
     leaderboard,
     setTitle
 }) => {
-    
-   setTitle(APP_TITLE);
-
+    useEffect(
+        () => setTitle(APP_TITLE),
+        [],
+    );
     const nav = useNavigate();
     //code
     return (
