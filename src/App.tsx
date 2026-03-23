@@ -4,7 +4,7 @@ import { APP_TITLE, Home } from './Home'
 import { Setup } from './Setup'
 import { PlayPage } from './PlayPage'
 import type { GameResult } from './GameResults'
-import { getGeneralFacts, getLeaderboard } from './GameResults'
+import { getGeneralFacts, getLeaderboard, getPreviousPlayers } from './GameResults'
 import { useState, useEffect } from 'react'
 import localforage from 'localforage'
 
@@ -101,7 +101,8 @@ const App = () => {
             />
             <Route
               path="/setup"
-              element={<Setup setTitle={setTitle} />}
+              element={<Setup setTitle={setTitle}
+              previousPlayers={getPreviousPlayers(gameResults)} />}
             />
             <Route
               path="/playpage"

@@ -3,9 +3,11 @@ import { useNavigate } from "react-router";
 
 type SetupProps = {
     setTitle: (t: string) => void;
+    previousPlayers: string[];
 }
 
-export const Setup: React.FC<SetupProps> = ({ setTitle }) => {
+export const Setup: React.FC<SetupProps> = ({ setTitle, previousPlayers }) => {
+    console.log(previousPlayers);
     const nav = useNavigate();
     useEffect(
         () => setTitle("Setup Screen"),

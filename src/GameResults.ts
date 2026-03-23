@@ -113,7 +113,7 @@ const getLeaderboardEntry = (
     };
 };
 
-const getPreviousPlayers = (
+ export const getPreviousPlayers = (
     games: GameResult[]
 ) => games 
     .flatMap(
