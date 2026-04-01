@@ -23,10 +23,16 @@ const dummyGameResults: GameResult[] = [
   },
 ];
 
+type Player = {
+  name: string;
+  checked: boolean;
+};
+
 const App = () => {
   const [gameResults, setGameResults] = useState<GameResult[]>(dummyGameResults);
   const [title, setTitle] = useState(APP_TITLE);
   const [theme, setTheme] = useState("light");
+  const [currentPlayers, setCurrentPlayers] = useState<Player[]>([]);
 
   const addNewGameResult = (gameResult: GameResult) =>
     setGameResults([
@@ -101,7 +107,17 @@ const App = () => {
             />
             <Route
               path="/setup"
+<<<<<<< Updated upstream
               element={<Setup setTitle={setTitle} />}
+=======
+              element={
+                <Setup
+                  setTitle={setTitle}
+                  previousPlayers={getPreviousPlayers(gameResults)}
+                  setCurrentPlayers={setCurrentPlayers}
+                />
+              }
+>>>>>>> Stashed changes
             />
             <Route
               path="/playpage"
