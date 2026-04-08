@@ -1,6 +1,5 @@
-import { durationFormatter} from 'human-readable';
+import { durationFormatter } from 'human-readable';
 
-//exported type definitions
 export type GameResult = {
     winner: string;
     players: string[];
@@ -21,8 +20,8 @@ export type GeneralFacts = {
     totalGames: number;
     shortestGame: string;
     longestGame: string;
-}
-//exported functions
+};
+
 export const getGeneralFacts = (games: GameResult[]): GeneralFacts => {
 
     if (games.length === 0) {
@@ -31,30 +30,39 @@ export const getGeneralFacts = (games: GameResult[]): GeneralFacts => {
             totalGames: 0,
             shortestGame: "N/A",
             longestGame: "N/A",
-        }
+        };
     }
+
     const now = Date.now();
 
-    const gamesLastPlayedAgoInMS = games.map(
+    const gamesLastPlayedAgoInMilliseconds = games.map(
         x => now - Date.parse(x.end)
     );
 
-    const mostRecentlyPlayedInMS = Math.min(
-        ...gamesLastPlayedAgoInMS
+    const mostRecentlyPlayedInMilliseconds = Math.min(
+        ...gamesLastPlayedAgoInMilliseconds
     );
-    const gameDurationInMSec = games.map(
+
+    const gameDurationsInMilliseconds = games.map(
         x => Date.parse(x.end) - Date.parse(x.start)
     );
-    // console.log(
-    //     gamesLastPlayedAgoInMS
-    // );
-    return {
-        lastPlayed: `${formatLastPlayed(mostRecentlyPlayedInMS)} ago`,
-        totalGames: games.length,
-        shortestGame: formatGameDuration(Math.min(...gameDurationInMSec)),
-        longestGame: formatGameDuration(Math.max(...gameDurationInMSec)),
 
-    }
+    return {
+        lastPlayed: `${formatLastPlayed(
+            mostRecentlyPlayedInMilliseconds
+        )} ago`,
+        totalGames: games.length,
+        shortestGame: formatGameDuration(
+            Math.min(
+                ...gameDurationsInMilliseconds
+            ),
+         ),
+        longestGame: formatGameDuration(
+            Math.max(
+                ...gameDurationsInMilliseconds
+            ),
+         ),         
+    };
 };
 
 export const getLeaderboard = (
@@ -76,13 +84,34 @@ export const getLeaderboard = (
             : Number.parseFloat(b.avg) - Number.parseFloat(a.avg)
     )
 ;
-//helper functions
+
+export const getPreviousPlayers = (
+    games: GameResult[]
+) => games 
+    .flatMap(
+        x => x.players
+    )
+    .filter(
+        (x, i, a) => i == a.findIndex(
+            y => y == x
+        )
+    )
+    .sort(
+        (a, b) => a.localeCompare(b)
+    )
+;
 
 const formatGameDuration = durationFormatter<string>();
-const formatLastPlayed = durationFormatter<string>({
-    allowMultiples: ["y", "mo", "d",],
-});
 
+const formatLastPlayed = durationFormatter<string>(
+    {
+        allowMultiples: [
+            "y",
+            "mo",
+            "d",
+        ],
+    }
+);
 
 const getLeaderboardEntry = (
     games: GameResult[],
@@ -112,19 +141,3 @@ const getLeaderboardEntry = (
 
     };
 };
-
-const getPreviousPlayers = (
-    games: GameResult[]
-) => games 
-    .flatMap(
-        x => x.players
-    )
-    .filter(
-        (x, i, a) => i == a.findIndex(
-            y => y == x
-        )
-    )
-    .sort(
-        (a, b) => a.localeCompare(b)
-    )
-;

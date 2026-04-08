@@ -6,28 +6,37 @@ export const APP_TITLE = "Durak Companion";
  type HomeProps = {
     generalFacts: GeneralFacts,
     leaderboard: LeaderboardEntry[],
-    setTitle: (t: string) => void;
- };
+    setTitle: (t: string) => void,
+};
 
 export const Home: React.FC<HomeProps> = ({
     generalFacts,
     leaderboard,
-    setTitle
+    setTitle,
 }) => {
+    
     useEffect(
         () => setTitle(APP_TITLE),
         [],
     );
+
     const nav = useNavigate();
-    //code
+
     return (
         <>
-        <button className="btn  btn-soft btn-lg w-full lg:w-64" onClick={
-            () => nav('/Setup')
-        }>Setup a Game</button>
-
+         <div className="card-body p-4 sm:p-6">
+                    <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+                        </div>
+                        <button 
+                            className="btn btn-lg w-full lg:w-auto"
+                            onClick={
+                                () => nav('/setup')
+                            }>
+                            Setup a Game
+                        </button>
+                    </div>
             <div className="card bg-base-100 w-full shadow-lg my-5 overflow-x-scroll">
-        <div className="card-body p-2">
+                <div className="card-body p-2">
             <h2 className="card-title text-nowrap">General Facts</h2>
             <table className="table table-zebra">
                 <tbody>
