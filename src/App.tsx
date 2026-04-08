@@ -11,13 +11,13 @@ const DEFAULT_THEME = "light";
 
 const dummyGameResults: GameResult[] = [
   {
-    winner: "Harry",
+    loser: "Harry",
     players: ["Harry", "Hermione", "Ron"],
     start: "2026-01-11T11:55:50.620Z",
     end: "2026-01-11T13:43:50.320Z",
   },
   {
-    winner: "Hermione",
+    loser: "Hermione",
     players: ["Harry", "Hermione", "Ron"],
     start: "2026-02-14T18:23:50.320Z",
     end: "2026-02-14T19:43:50.320Z",
