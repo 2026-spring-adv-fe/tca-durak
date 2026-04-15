@@ -97,6 +97,51 @@ export const getPreviousPlayers = (
         (a, b) => a.localeCompare(b)
     );
 
+    export const getAvgGameDurationsByPlayerCount = (results: GameResult[]): {
+    numberOfPlayers: number;
+    numberOfGames: number;
+    avgGameDuration: string;
+}[] => {
+
+    const grouped = Map.groupBy(
+        results,
+
+        (x) => x.players.length,
+        // ({ players }) => players.length,
+        
+        // (x) => x.winner,
+        // (x) => new Date(x.start).getMonth(),
+        // (x) => new Date(x.start).toLocaleString(
+        //     'default',
+        //     {
+        //         month: 'short',
+        //     },
+        // ),
+    );
+
+    // console.log(
+    //     [
+    //         ...grouped
+    //     ]
+    // );
+
+    return [
+        ...grouped
+    ]
+        .map(
+            x => ({
+                numberOfPlayers: x[0],
+                numberOfGames: x[1].length,
+                avgGameDuration: getAvgGameDurationInMilliseconds(x[1]).toFixed(2),
+            })
+        )
+        .sort(
+            (a, b) => a.numberOfPlayers - b.numberOfPlayers
+        )
+    ;
+};
+
+
 const formatGameDuration = durationFormatter<string>();
 
 const formatLastPlayed = durationFormatter<string>({
@@ -129,4 +174,22 @@ const getLeaderboardEntry = (
         escapeRate: `${escapeRate.toFixed(3)}`,
         name: player,
     };
+};
+const getGameDurationInMilliseconds = (result: GameResult) => Date.parse(result.end) 
+    - Date.parse(result.start)
+;
+
+const getAvgGameDurationInMilliseconds = (results: GameResult[]) => {
+
+    // Add up the game durations for a total, simple reduce.
+    const sum = results.reduce(
+        (acc, x) => acc + getGameDurationInMilliseconds(x),
+        0,
+    );
+
+    // Avg is total divided by number of games, accounting for divide by zero...
+    return results.length > 0
+        ? sum / results.length
+        : 0
+    ;
 };
