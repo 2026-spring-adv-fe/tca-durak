@@ -27,6 +27,11 @@ export type AvgGameDuration = {
     avgGameDuration: string;
 };
 
+export type gameCountByMonth = {
+    month: string;
+    count: number;
+};
+
 export const getMostDurak = (leaderboard: LeaderboardEntry[]) => {
     if (leaderboard.length === 0) return null;
 
@@ -71,6 +76,8 @@ export const getGeneralFacts = (games: GameResult[]): GeneralFacts => {
         ),
     };
 };
+
+
 
 export const getLeaderboard = (
     games: GameResult[]
@@ -140,6 +147,43 @@ export const getPreviousPlayers = (
         )
         .sort(
             (a, b) => a.numberOfPlayers - b.numberOfPlayers
+        )
+    ;
+};
+export const getGameCountByMonth = (results: GameResult[]): gameCountByMonth[] => {
+    const grouped = Map.groupBy(
+        results,
+        (x) => new Date(x.start).toLocaleString(
+            'default',
+            {
+                month: 'short',
+            }
+        ),
+    );
+
+    // console.log(
+    //     grouped
+    // );
+
+    return [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
+    ]
+        .map(
+            x => ({
+                month: x,
+                count: grouped.get(x)?.length ?? 0
+            })
         )
     ;
 };

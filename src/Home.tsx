@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import type { GeneralFacts, LeaderboardEntry, AvgGameDuration } from "./GameResults";
+import type { GeneralFacts, LeaderboardEntry, AvgGameDuration, gameCountByMonth } from "./GameResults";
 import { useEffect } from "react";
 
 export const APP_TITLE = "Durak Companion";
@@ -7,7 +7,7 @@ export const APP_TITLE = "Durak Companion";
 type HomeProps = {
     generalFacts: GeneralFacts;
     avgGameDurationsByPlayerCount: AvgGameDuration[];
-
+    gameCountByMonth: gameCountByMonth[];
     leaderboard: LeaderboardEntry[];
     setTitle: (t: string) => void;
 };
@@ -15,6 +15,7 @@ type HomeProps = {
 export const Home: React.FC<HomeProps> = ({
     generalFacts,
     avgGameDurationsByPlayerCount: foo,
+    gameCountByMonth,
     leaderboard,
     setTitle,
 }) => {
@@ -130,6 +131,34 @@ export const Home: React.FC<HomeProps> = ({
                                         </td>
                                         <td>{entry.numberOfGames}</td>
                                         <td>{entry.avgGameDuration}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
+                </div>
+            </div>
+
+            <div className="card bg-base-100 w-full shadow-lg my-5">
+                <div className="card-body p-2">
+                    <h2 className="card-title text-nowrap">game count by month</h2>
+                    {gameCountByMonth.length === 0 ? (
+                        <p>no games found.</p>
+                    ) : (
+                        <table className="table table-zebra">
+                            <tbody>
+                                <tr>
+                                    <td>Month</td>
+                                    <th>Game Count</th>
+                                </tr>
+                                {gameCountByMonth.map((entry) => (
+                                    <tr key={entry.month}>
+                                        <td>
+                                            <div className="flex items-center gap-2">
+                                                <span>{entry.month}</span>
+                                            </div>
+                                        </td>
+                                        <td>{entry.count}</td>
                                     </tr>
                                 ))}
                             </tbody>
