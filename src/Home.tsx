@@ -1,20 +1,25 @@
 import { useNavigate } from "react-router";
-import type { GeneralFacts, LeaderboardEntry } from "./GameResults";
+import type { GeneralFacts, LeaderboardEntry, AvgGameDuration } from "./GameResults";
 import { useEffect } from "react";
 
 export const APP_TITLE = "Durak Companion";
 
 type HomeProps = {
     generalFacts: GeneralFacts;
+    avgGameDurationsByPlayerCount: AvgGameDuration[];
+
     leaderboard: LeaderboardEntry[];
     setTitle: (t: string) => void;
 };
 
 export const Home: React.FC<HomeProps> = ({
     generalFacts,
+    avgGameDurationsByPlayerCount: foo,
     leaderboard,
     setTitle,
 }) => {
+
+    console.log(foo);
     useEffect(() => setTitle(APP_TITLE), []);
 
     const nav = useNavigate();

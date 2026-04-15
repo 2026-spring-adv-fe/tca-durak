@@ -20,6 +20,13 @@ export type GeneralFacts = {
     shortestGame: string;
     longestGame: string;
 };
+
+export type AvgGameDuration = {
+    numberOfPlayers: number;
+    numberOfGames: number;
+    avgGameDuration: string;
+};
+
 export const getMostDurak = (leaderboard: LeaderboardEntry[]) => {
     if (leaderboard.length === 0) return null;
 
@@ -97,11 +104,7 @@ export const getPreviousPlayers = (
         (a, b) => a.localeCompare(b)
     );
 
-    export const getAvgGameDurationsByPlayerCount = (results: GameResult[]): {
-    numberOfPlayers: number;
-    numberOfGames: number;
-    avgGameDuration: string;
-}[] => {
+    export const getAvgGameDurationsByPlayerCount = (results: GameResult[]): AvgGameDuration[] => {
 
     const grouped = Map.groupBy(
         results,

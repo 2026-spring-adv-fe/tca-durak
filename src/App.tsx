@@ -3,7 +3,7 @@ import { HashRouter, Routes, Route } from 'react-router';
 import { APP_TITLE, Home } from './Home';
 import { Setup } from './Setup';
 import { Play } from './PlayPage';
-import { getGeneralFacts, getLeaderboard, getPreviousPlayers, type GameResult } from './GameResults';
+import { getGeneralFacts, getAvgGameDurationsByPlayerCount, getLeaderboard, getPreviousPlayers, type GameResult } from './GameResults';
 import { useEffect, useState } from 'react';
 import localforage from 'localforage';
 
@@ -115,6 +115,9 @@ const App = () => {
                   } 
                   leaderboard={
                     getLeaderboard(gameResults)
+                  }
+                  avgGameDurationsByPlayerCount={
+                    getAvgGameDurationsByPlayerCount(gameResults)
                   }
                 />
               }
