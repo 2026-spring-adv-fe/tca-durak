@@ -107,6 +107,36 @@ export const Home: React.FC<HomeProps> = ({
                     )}
                 </div>
             </div>
+
+            <div className="card bg-base-100 w-full shadow-lg my-5">
+                <div className="card-body p-2">
+                    <h2 className="card-title text-nowrap">avg game durations</h2>
+                            {foo.length === 0 ? (
+                                <p>no players found</p>
+                    ) : (
+                        <table className="table table-zebra">
+                            <tbody>
+                                <tr>
+                                    <td>number of players</td>
+                                    <th>number of games</th>
+                                    <th>avg game duration</th>
+                                </tr>
+                                {foo.map((entry) => (
+                                    <tr key={entry.numberOfPlayers}>
+                                        <td>
+                                            <div className="flex items-center gap-2">
+                                                <span>{entry.numberOfPlayers}</span>
+                                            </div>
+                                        </td>
+                                        <td>{entry.numberOfGames}</td>
+                                        <td>{entry.avgGameDuration}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
+                </div>
+            </div>
         </>
     );
 };
