@@ -151,6 +151,10 @@ export const getPreviousPlayers = (
     ;
 };
 export const getGameCountByMonth = (results: GameResult[]): gameCountByMonth[] => {
+    if (results.length === 0) {
+        return [];
+    }
+
     const grouped = Map.groupBy(
         results,
         (x) => new Date(x.start).toLocaleString(
