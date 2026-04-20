@@ -38,6 +38,8 @@ const App = () => {
   // const [currentPlayers, setCurrentPlayers] = useState<string[]>([]);
   const currentPlayersStateTuple = useState<string[]>([]);
 
+  const [emailInDialog, setEmailInDialog] = useState("foo@bar.com");
+
   const emailDialog = useRef<HTMLDialogElement | null>(null);
 
 
@@ -173,12 +175,23 @@ const App = () => {
         </HashRouter>
         <dialog ref={emailDialog} className="modal">
         <div className="modal-box">
-          <h3 className="font-bold text-lg">Hello!</h3>
-          <p className="py-4">Press ESC key or click the button below to close</p>
+          <h3 className="font-bold pb-4 text-lg">who r u?</h3>
+            <input 
+              type="text" 
+              placeholder="Type your email here" 
+              className="input input-bordered w-full max-w-xs" 
+              value={emailInDialog}
+              onChange={(e) => setEmailInDialog(e.target.value)}
+            />
           <div className="modal-action">
             <form method="dialog">
               {/* if there is a button in form, it will close the modal */}
-              <button className="btn">Close</button>
+              <button className="btn btn-lg" onClick={
+                async () => await localforage.setItem(
+                  "email",
+                  emailInDialog
+                ) 
+              }>save</button>
             </form>
           </div>
         </div>
