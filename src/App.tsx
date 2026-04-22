@@ -92,6 +92,32 @@ const App = () => {
     };
   }, []);
 
+useEffect(() => {
+  if (!emailForCloudApi) return;
+
+  let ignore = false;
+
+  const loadGames = async () => {
+    try {
+      const games = await loadGamesFromCloud(
+        emailForCloudApi,
+        "tca-durak-26s",
+      );
+
+      if (!ignore) {
+        setGameResults(games);
+      }
+    } catch (err) {
+      console.error("failed to load games:", err);
+    }
+  };
+
+  loadGames();
+
+  return () => {
+    ignore = true;
+  };
+}, [emailForCloudApi]);
   const addNewGameResult = async (gameResult: GameResult) => {
 
     if (emailForCloudApi.trim().length > 0) {
