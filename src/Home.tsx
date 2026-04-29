@@ -17,6 +17,11 @@ type HomeProps = {
     leaderboard: LeaderboardEntry[];
     gameResults: GameResult[];
     setTitle: (t: string) => void;
+    gameHistory: {
+        date: string;
+        duration: string;
+        players: string;
+    }[];
 };
 
 export const Home: React.FC<HomeProps> = ({
@@ -25,6 +30,7 @@ export const Home: React.FC<HomeProps> = ({
     gameCountByMonth,
     leaderboard,
     gameResults,
+    gameHistory,
     setTitle,
 }) => {
     useEffect(() => setTitle(APP_TITLE), [setTitle]);
@@ -43,7 +49,7 @@ export const Home: React.FC<HomeProps> = ({
     const safeGameResults = gameResults ?? [];
     const safeAvgDurations = avgGameDurationsByPlayerCount ?? [];
     const safeGameCountByMonth = gameCountByMonth ?? [];
-
+    const safeGameHistory = gameHistory ?? [];
     const mostDurak =
         safeLeaderboard.length === 0
             ? null
@@ -325,6 +331,37 @@ export const Home: React.FC<HomeProps> = ({
                     )}
                 </div>
             </div>
+            <div className="card bg-base-100 w-full shadow-lg my-5 border border-base-300 overflow-x-auto">
+                <div className="card-body p-4 sm:p-6">
+                    <h2 className="card-title text-2xl">Game History</h2>
+
+                    {safeGameHistory.length === 0 ? (
+                        <p className="mt-3 text-base-content/70">
+                            No games found.
+                        </p>
+                    ) : (
+                        <table className="table table-zebra mt-3">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Duration</th>
+                                    <th>Players</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {safeGameHistory.map((entry) => (
+                                    <tr key={entry.date}>
+                                        <td>{entry.date}</td>
+                                        <td>{entry.duration}</td>
+                                        <td>{entry.players}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
+                </div>
+            </div>
+            
 
             <dialog ref={rulesDialog} className="modal">
                 <div className="modal-box max-w-2xl">

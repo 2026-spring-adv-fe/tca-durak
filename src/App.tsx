@@ -93,6 +93,43 @@ const App = () => {
     getAvgGameDurationsByPlayerCount(gameResults);
   const gameCountByMonthData = getGameCountByMonth(gameResults);
 
+  function getReverseChrongameData(gameResults: GameResult[]): { date: string; duration: string; players: string; }[] {
+    throw new Error("Function not implemented.");
+  }
+  function getReverseChrongameData(gameResults: GameResult[]): {
+    date: string;
+    duration: string;
+    players: string;
+  }[] {
+    return [...gameResults]
+      .sort(
+        (a, b) =>
+          new Date(b.start).getTime() - new Date(a.start).getTime()
+      )
+      .map(({ start, end, players }) => {
+        const startDate = new Date(start);
+        const endDate = new Date(end);
+        const durationMinutes = Math.round(
+          (endDate.getTime() - startDate.getTime()) / 60000
+        );
+        const hours = Math.floor(durationMinutes / 60);
+        const minutes = durationMinutes % 60;
+
+        return {
+          date: startDate.toLocaleDateString("pl-PL", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          }),
+          duration:
+            hours > 0
+              ? `${hours}h ${minutes.toString().padStart(2, "0")}m`
+              : `${minutes}m`,
+          players: players.join(", "),
+        };
+      });
+  }
+
   return (
     <div className="min-h-screen" data-theme={theme}>
       <div className="navbar bg-neutral text-neutral-content overflow-x-hidden flex flex-row">
@@ -168,6 +205,7 @@ const App = () => {
                   gameCountByMonth={gameCountByMonthData}
                   leaderboard={leaderboard}
                   gameResults={gameResults}
+                  gameHistory={getReverseChrongameData(gameResults)}
                   setTitle={setTitle}
                 />
               }

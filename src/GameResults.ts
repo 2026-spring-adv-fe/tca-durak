@@ -176,6 +176,16 @@ const getLeaderboardEntry = (
   };
 };
 
+export const getReverseChrongameData = (result: GameResult[]) => result.sort(
+  (a, b) => Date.parse(b.end) - Date.parse(a.end)
+).map(
+  x => ({
+    date: new Date(x.end).toLocaleDateString(),
+    duration: formatGameDuration(Date.parse(x.end) - Date.parse(x.start)),
+    players: x.players.map(y => `${y}${y === x.loser ? " (Loser)" : ""}`).join(", "),
+  })
+);
+
 const getGameDurationInMilliseconds = (result: GameResult) =>
   Date.parse(result.end) - Date.parse(result.start);
 
