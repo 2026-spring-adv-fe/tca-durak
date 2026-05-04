@@ -349,8 +349,8 @@ export const Home: React.FC<HomeProps> = ({
                                 </tr>
                             </thead>
                             <tbody>
-                                {safeGameHistory.map((entry) => (
-                                    <tr key={entry.date}>
+                                {safeGameHistory.map((entry, index) => (
+                                    <tr key={`${entry.date}-${entry.duration}-${index}`}>
                                         <td>{entry.date}</td>
                                         <td>{entry.duration}</td>
                                         <td>{entry.players}</td>
