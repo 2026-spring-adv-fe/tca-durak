@@ -138,12 +138,52 @@ useEffect(() => {
     getAvgGameDurationsByPlayerCount(gameResults);
   const gameCountByMonthData = getGameCountByMonth(gameResults);
 
-  return (
-    <div className="min-h-screen" data-theme={theme}>
-      <div className="navbar bg-neutral text-neutral-content overflow-x-hidden flex flex-row">
-        <p className="text-xl font-bold text-nowrap">{title}</p>
+function getReverseChrongameData(gameResults: GameResult[]): {
+  date: string;
+  duration: string;
+  players: string;
+}[] {
+  return [...gameResults]
+    .sort(
+      (a, b) =>
+        new Date(b.start).getTime() - new Date(a.start).getTime()
+    )
+    .map(({ start, end, players }) => {
+      const startDate = new Date(start);
+      const endDate = new Date(end);
 
-        <div className="ml-auto flex flex-row">
+      const durationMinutes = Math.round(
+        (endDate.getTime() - startDate.getTime()) / 60000
+      );
+
+      const hours = Math.floor(durationMinutes / 60);
+      const minutes = durationMinutes % 60;
+
+      return {
+        date: startDate.toLocaleDateString("pl-PL", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        }),
+        duration:
+          hours > 0
+            ? `${hours}h ${minutes.toString().padStart(2, "0")}m`
+            : `${minutes}m`,
+        players: players.join(", "),
+      };
+    });
+}
+
+  return (
+    <div className="min-h-screen bg-base-200" data-theme={theme}>
+      <div className="navbar bg-neutral text-neutral-content overflow-x-hidden flex flex-row px-4">
+        <div className="flex items-center gap-2">
+          <span className="text-red-400 text-lg leading-none select-none">♦</span>
+          <p className="text-xl font-bold text-nowrap tracking-tight">{title}</p>
+          <span className="text-lg leading-none opacity-50 select-none">♠</span>
+        </div>
+
+        <div className="ml-auto flex flex-row items-center gap-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -213,6 +253,7 @@ useEffect(() => {
                   gameCountByMonth={gameCountByMonthData}
                   leaderboard={leaderboard}
                   gameResults={gameResults}
+                  gameHistory={getReverseChrongameData(gameResults)}
                   setTitle={setTitle}
                 />
               }
