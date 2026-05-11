@@ -113,21 +113,25 @@ export const Setup: React.FC<SetupProps> = ({
   const step3Done = trumpChosen;
 
   const getStepBadgeClass = (done: boolean, active: boolean) => {
-    if (done) {
-      return "badge-neutral";
-    }
-
-    if (active) {
-      return "badge-outline";
-    }
-
+    if (done) return "badge-success";
+    if (active) return "badge-outline";
     return "badge-ghost";
   };
 
   return (
     <div className="w-full px-2 sm:px-4 lg:px-6 pb-10">
       <div className="mx-auto w-full max-w-6xl">
-        <div className="mb-6 sm:mb-8">
+        <div className="mb-6 sm:mb-8 flex items-center gap-4">
+          <button
+            type="button"
+            className="btn btn-ghost btn-sm gap-1 text-base-content/60 hover:text-base-content"
+            onClick={() => nav(-1)}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="size-4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+            </svg>
+            home
+          </button>
           <h1 className="text-3xl sm:text-4xl font-bold">GAME SETUP</h1>
         </div>
 
@@ -135,7 +139,7 @@ export const Setup: React.FC<SetupProps> = ({
           <li>
             <div className="timeline-middle">
               <div className={`badge badge-lg ${getStepBadgeClass(step1Done, true)}`}>
-                {step1Done ? "1" : "1"}
+                {step1Done ? "✓" : "1"}
               </div>
             </div>
             <div className="timeline-end w-full pl-4 sm:pl-6 pb-8">
@@ -198,7 +202,7 @@ export const Setup: React.FC<SetupProps> = ({
           <li>
             <div className="timeline-middle">
               <div className={`badge badge-lg ${getStepBadgeClass(step2Done, step1Done && !step2Done)}`}>
-                {step2Done ? "2" : "2"}
+                {step2Done ? "✓" : "2"}
               </div>
             </div>
             <div className="timeline-end w-full pl-4 sm:pl-6 pb-8">
@@ -235,7 +239,7 @@ export const Setup: React.FC<SetupProps> = ({
           <li>
             <div className="timeline-middle">
               <div className={`badge badge-lg ${getStepBadgeClass(step3Done, step2Done && !step3Done)}`}>
-                {step3Done ? "3" : "3"}
+                {step3Done ? "✓" : "3"}
               </div>
             </div>
             <div className="timeline-end w-full pl-4 sm:pl-6 pb-8">
@@ -274,7 +278,7 @@ export const Setup: React.FC<SetupProps> = ({
           <li>
             <div className="timeline-middle">
               <div className={`badge badge-lg ${getStepBadgeClass(canStart, step3Done && !canStart)}`}>
-                {canStart ? "4" : "4"}
+                {canStart ? "✓" : "4"}
               </div>
             </div>
             <div className="timeline-end w-full pl-4 sm:pl-6">
@@ -295,7 +299,11 @@ export const Setup: React.FC<SetupProps> = ({
                     </p>
                     <p>
                       <span className="font-semibold">trump suit:</span>{" "}
-                      <span className="capitalize">{trumpSuit ?? "Not selected"}</span>
+                      {trumpSuit ? (
+                        <span className={`capitalize ${trumpSuit === "hearts" || trumpSuit === "diamonds" ? "text-red-500" : ""}`}>
+                          {SUITS.find(s => s.suit === trumpSuit)?.icon} {trumpSuit}
+                        </span>
+                      ) : "Not selected"}
                     </p>
                   </div>
 

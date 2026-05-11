@@ -6,7 +6,7 @@ import type {
     gameCountByMonth,
     GameResult,
 } from "./GameResults";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const APP_TITLE = "Durak Companion";
 
@@ -37,6 +37,13 @@ export const Home: React.FC<HomeProps> = ({
 
     const nav = useNavigate();
     const rulesDialog = useRef<HTMLDialogElement | null>(null);
+    const [openCard, setOpenCard] = useState<string | null>(null);
+
+    useEffect(() => {
+        const close = () => setOpenCard(null);
+        document.addEventListener("click", close);
+        return () => document.removeEventListener("click", close);
+    }, []);
 
     const safeGeneralFacts = generalFacts ?? {
         lastPlayed: "—",
@@ -87,6 +94,24 @@ export const Home: React.FC<HomeProps> = ({
                   current[1] > max[1] ? current : max
               );
 
+    const dealerStats = safeGameResults.reduce<Record<string, { dealt: number; lost: number }>>(
+        (acc, game) => {
+            if (!game.dealer) return acc;
+            if (!acc[game.dealer]) acc[game.dealer] = { dealt: 0, lost: 0 };
+            acc[game.dealer].dealt += 1;
+            if (game.loser === game.dealer) acc[game.dealer].lost += 1;
+            return acc;
+        },
+        {}
+    );
+
+    const unluckiestDealer =
+        Object.keys(dealerStats).length === 0
+            ? null
+            : Object.entries(dealerStats).reduce((max, current) =>
+                  current[1].dealt > max[1].dealt ? current : max
+              );
+
     const getSuitSymbol = (suit?: string) => {
         switch (suit) {
             case "hearts":
@@ -110,19 +135,21 @@ export const Home: React.FC<HomeProps> = ({
 
     return (
         <>
-            <div className="card bg-base-100 w-full shadow-lg my-5 border border-base-300">
+            <div className="card bg-base-100 w-full shadow-lg my-5 border border-base-300 relative overflow-hidden">
+                <span aria-hidden className="pointer-events-none select-none absolute -right-4 -top-6 text-[9rem] leading-none text-base-content/[0.04] rotate-12">♠</span>
+                <span aria-hidden className="pointer-events-none select-none absolute right-28 -bottom-6 text-[6rem] leading-none text-red-500/[0.07] -rotate-6">♥</span>
                 <div className="card-body p-4 sm:p-6">
                     <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
                         <div>
-                            <h1 className="text-3xl sm:text-4xl font-bold">
+                            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">
                                 Durak Companion
                             </h1>
-                            <p className="text-base-content/70 mt-2">
+                            <p className="text-base-content/60 mt-2">
                                 Track rounds, spot patterns, and see who keeps
                                 becoming the durak.
                             </p>
                         </div>
-                            <div className="flex flex-col gap-3 w-full">
+                        <div className="flex flex-col gap-2 w-full lg:max-w-xs shrink-0">
                             <button
                                 className="btn btn-outline w-full"
                                 onClick={() => rulesDialog.current?.showModal()}
@@ -131,7 +158,7 @@ export const Home: React.FC<HomeProps> = ({
                             </button>
 
                             <button
-                                className="btn btn-neutral w-full"
+                                className="btn btn-neutral btn-lg w-full"
                                 onClick={() => nav("/setup")}
                             >
                                 Setup a Game
@@ -141,8 +168,12 @@ export const Home: React.FC<HomeProps> = ({
                 </div>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4 my-5">
-                <div className="card bg-base-100 shadow-lg border border-base-300 hover:-translate-y-1 hover:shadow-2xl transition">
+            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5 my-5">
+                <div
+                    className="card relative bg-base-100 shadow-lg border border-base-300 hover:-translate-y-1 hover:shadow-2xl transition cursor-pointer select-none"
+                    onClick={(e) => { e.stopPropagation(); setOpenCard(openCard === "mostDurak" ? null : "mostDurak"); }}
+                >
+                    <span className="absolute top-2 right-2 text-xs text-base-content/25">ℹ</span>
                     <div className="card-body items-center text-center p-5">
                         <div className="text-4xl mb-2">🃏</div>
                         <h2 className="font-bold text-lg">Most Durak</h2>
@@ -154,10 +185,17 @@ export const Home: React.FC<HomeProps> = ({
                                 ? `${mostDurak.durakTimes} durak times`
                                 : "No data yet"}
                         </p>
+                        <div className={`overflow-hidden transition-all duration-200 ease-in-out ${openCard === "mostDurak" ? "max-h-16 opacity-100 mt-2" : "max-h-0 opacity-0"}`}>
+                            <p className="text-xs text-base-content/50 italic">The player who's been left holding cards at the end of a game more than anyone else.</p>
+                        </div>
                     </div>
                 </div>
 
-                <div className="card bg-base-100 shadow-lg border border-base-300 hover:-translate-y-1 hover:shadow-2xl transition">
+                <div
+                    className="card relative bg-base-100 shadow-lg border border-base-300 hover:-translate-y-1 hover:shadow-2xl transition cursor-pointer select-none"
+                    onClick={(e) => { e.stopPropagation(); setOpenCard(openCard === "favTrump" ? null : "favTrump"); }}
+                >
+                    <span className="absolute top-2 right-2 text-xs text-base-content/25">ℹ</span>
                     <div className="card-body items-center text-center p-5">
                         <div
                             className={`text-4xl mb-2 ${getSuitColorClass(
@@ -175,10 +213,17 @@ export const Home: React.FC<HomeProps> = ({
                                 ? `${mostCommonTrump[1]} times`
                                 : "No data yet"}
                         </p>
+                        <div className={`overflow-hidden transition-all duration-200 ease-in-out ${openCard === "favTrump" ? "max-h-16 opacity-100 mt-2" : "max-h-0 opacity-0"}`}>
+                            <p className="text-xs text-base-content/50 italic">The trump suit that's been flipped most often across all recorded games.</p>
+                        </div>
                     </div>
                 </div>
 
-                <div className="card bg-base-100 shadow-lg border border-base-300 hover:-translate-y-1 hover:shadow-2xl transition">
+                <div
+                    className="card relative bg-base-100 shadow-lg border border-base-300 hover:-translate-y-1 hover:shadow-2xl transition cursor-pointer select-none"
+                    onClick={(e) => { e.stopPropagation(); setOpenCard(openCard === "totalGames" ? null : "totalGames"); }}
+                >
+                    <span className="absolute top-2 right-2 text-xs text-base-content/25">ℹ</span>
                     <div className="card-body items-center text-center p-5">
                         <div className="text-4xl mb-2">🎮</div>
                         <h2 className="font-bold text-lg">Total Games</h2>
@@ -188,10 +233,17 @@ export const Home: React.FC<HomeProps> = ({
                         <p className="text-sm text-base-content/60">
                             All recorded rounds
                         </p>
+                        <div className={`overflow-hidden transition-all duration-200 ease-in-out ${openCard === "totalGames" ? "max-h-16 opacity-100 mt-2" : "max-h-0 opacity-0"}`}>
+                            <p className="text-xs text-base-content/50 italic">Every round that's been tracked in this app since you started recording.</p>
+                        </div>
                     </div>
                 </div>
 
-                <div className="card bg-base-100 shadow-lg border border-base-300 hover:-translate-y-1 hover:shadow-2xl transition">
+                <div
+                    className="card relative bg-base-100 shadow-lg border border-base-300 hover:-translate-y-1 hover:shadow-2xl transition cursor-pointer select-none"
+                    onClick={(e) => { e.stopPropagation(); setOpenCard(openCard === "escapeRate" ? null : "escapeRate"); }}
+                >
+                    <span className="absolute top-2 right-2 text-xs text-base-content/25">ℹ</span>
                     <div className="card-body items-center text-center p-5">
                         <div className="text-4xl mb-2">🏆</div>
                         <h2 className="font-bold text-lg">Best Escape Rate</h2>
@@ -203,6 +255,31 @@ export const Home: React.FC<HomeProps> = ({
                                 ? bestEscapePlayer.escapeRate
                                 : "No data yet"}
                         </p>
+                        <div className={`overflow-hidden transition-all duration-200 ease-in-out ${openCard === "escapeRate" ? "max-h-16 opacity-100 mt-2" : "max-h-0 opacity-0"}`}>
+                            <p className="text-xs text-base-content/50 italic">The player who most consistently finishes their cards before the last one is stuck with them.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    className="card relative bg-base-100 shadow-lg border border-base-300 hover:-translate-y-1 hover:shadow-2xl transition cursor-pointer select-none"
+                    onClick={(e) => { e.stopPropagation(); setOpenCard(openCard === "dealerCurse" ? null : "dealerCurse"); }}
+                >
+                    <span className="absolute top-2 right-2 text-xs text-base-content/25">ℹ</span>
+                    <div className="card-body items-center text-center p-5">
+                        <div className="text-4xl mb-2">🪄</div>
+                        <h2 className="font-bold text-lg">Dealer's Curse</h2>
+                        <p className="text-xl font-semibold">
+                            {unluckiestDealer ? unluckiestDealer[0] : "—"}
+                        </p>
+                        <p className="text-sm text-base-content/60">
+                            {unluckiestDealer
+                                ? `dealt ${unluckiestDealer[1].dealt}× · lost ${unluckiestDealer[1].lost} (${Math.round((unluckiestDealer[1].lost / unluckiestDealer[1].dealt) * 100)}%)`
+                                : "No data yet"}
+                        </p>
+                        <div className={`overflow-hidden transition-all duration-200 ease-in-out ${openCard === "dealerCurse" ? "max-h-16 opacity-100 mt-2" : "max-h-0 opacity-0"}`}>
+                            <p className="text-xs text-base-content/50 italic">The player who deals the most — and how often the universe repays their generosity with a loss.</p>
+                        </div>
                     </div>
                 </div>
             </div>

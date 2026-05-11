@@ -108,11 +108,27 @@ export const Play: React.FC<PlayProps> = ({
     nav(-2);
   };
 
+  const quitWithoutSaving = () => {
+    nav(-2);
+  };
+
+  const suitSymbol: Record<string, string> = { hearts: "♥", diamonds: "♦", clubs: "♣", spades: "♠" };
+  const suitColor = (suit: string | null | undefined) =>
+    suit === "hearts" || suit === "diamonds" ? "text-red-500" : "";
+
   return (
     <div className="w-full px-2 sm:px-4 lg:px-6 pb-10">
       <div className="mx-auto w-full max-w-6xl space-y-6">
         <div>
-          <h1 className="text-3xl sm:text-4xl font-bold">round in progress</h1>
+          <div className="flex items-center gap-3 flex-wrap">
+            <h1 className="text-3xl sm:text-4xl font-bold">round in progress</h1>
+            {!durakPlayer && (
+              <span className="badge badge-error gap-1.5 animate-pulse">
+                <span className="size-1.5 rounded-full bg-current" />
+                LIVE
+              </span>
+            )}
+          </div>
           <p className="mt-2 text-base-content/70">
             mark each player when they run out of cards
           </p>
@@ -205,7 +221,11 @@ export const Play: React.FC<PlayProps> = ({
                   </p>
                   <p>
                     <span className="font-semibold">Trump suit:</span>{" "}
-                    <span className="capitalize">{trumpSuit ?? "not selected"}</span>
+                    {trumpSuit ? (
+                      <span className={`capitalize ${suitColor(trumpSuit)}`}>
+                        {suitSymbol[trumpSuit]} {trumpSuit}
+                      </span>
+                    ) : "not selected"}
                   </p>
                   <p>
                     <span className="font-semibold">Deck empty:</span>{" "}
@@ -253,6 +273,18 @@ export const Play: React.FC<PlayProps> = ({
             </div>
           </div>
         </div>
+
+        {!durakPlayer && (
+          <div className="flex justify-center pt-2 pb-2">
+            <button
+              type="button"
+              className="btn btn-ghost btn-sm text-base-content/40 hover:text-base-content/70"
+              onClick={quitWithoutSaving}
+            >
+              quit without saving
+            </button>
+          </div>
+        )}
 
         <dialog ref={modalRef} className="modal">
           <div className="modal-box max-w-md">

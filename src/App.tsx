@@ -130,11 +130,15 @@ function getReverseChrongameData(gameResults: GameResult[]): {
 }
 
   return (
-    <div className="min-h-screen" data-theme={theme}>
-      <div className="navbar bg-neutral text-neutral-content overflow-x-hidden flex flex-row">
-        <p className="text-xl font-bold text-nowrap">{title}</p>
+    <div className="min-h-screen bg-base-200" data-theme={theme}>
+      <div className="navbar bg-neutral text-neutral-content overflow-x-hidden flex flex-row px-4">
+        <div className="flex items-center gap-2">
+          <span className="text-red-400 text-lg leading-none select-none">♦</span>
+          <p className="text-xl font-bold text-nowrap tracking-tight">{title}</p>
+          <span className="text-lg leading-none opacity-50 select-none">♠</span>
+        </div>
 
-        <div className="ml-auto flex flex-row">
+        <div className="ml-auto flex flex-row items-center gap-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
