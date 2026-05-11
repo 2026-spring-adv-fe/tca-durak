@@ -13,7 +13,6 @@ import {
 } from "./GameResults";
 import { useEffect, useRef, useState } from "react";
 import localforage from "localforage";
-import { marshall } from "@aws-sdk/util-dynamodb";
 import { saveGameToCloud, loadGamesFromCloud } from "./tca-cloud-api";
 
 const DEFAULT_THEME = "light";
