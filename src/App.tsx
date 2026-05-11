@@ -13,6 +13,8 @@ import {
 } from "./GameResults";
 import { useEffect, useRef, useState } from "react";
 import localforage from "localforage";
+import { marshall } from "@aws-sdk/util-dynamodb";
+import { saveGameToCloud, loadGamesFromCloud } from "./tca-cloud-api";
 
 const DEFAULT_THEME = "light";
 
@@ -46,7 +48,13 @@ const App = () => {
   const [currentDealer, setCurrentDealer] = useState<string | null>(null);
 
   const [emailInDialog, setEmailInDialog] = useState("foo@bar.com");
+
+
+  const [emailForCloudApi, setEmailForCloudApi] = useState("");
+
   const emailDialog = useRef<HTMLDialogElement | null>(null);
+
+
 
   useEffect(() => {
     let ignore = false;
@@ -73,6 +81,7 @@ const App = () => {
       const result = (await localforage.getItem<string>("email")) ?? "";
       if (!ignore) {
         setEmailInDialog(result);
+        setEmailForCloudApi(result);
       }
     };
 
@@ -83,7 +92,43 @@ const App = () => {
     };
   }, []);
 
-  const addNewGameResult = (gameResult: GameResult) => {
+useEffect(() => {
+  if (!emailForCloudApi) return;
+
+  let ignore = false;
+
+  const loadGames = async () => {
+    try {
+      const games = await loadGamesFromCloud(
+        emailForCloudApi,
+        "tca-durak-26s",
+      );
+
+      if (!ignore) {
+        setGameResults(games);
+      }
+    } catch (err) {
+      console.error("failed to load games:", err);
+    }
+  };
+
+  loadGames();
+
+  return () => {
+    ignore = true;
+  };
+}, [emailForCloudApi]);
+  const addNewGameResult = async (gameResult: GameResult) => {
+
+    if (emailForCloudApi.trim().length > 0) {
+        await saveGameToCloud(
+              emailForCloudApi,
+              "tca-durak-26s",
+              gameResult.end,
+              gameResult
+            );
+    }
+
     setGameResults((prev) => [...prev, gameResult]);
   };
 
@@ -262,7 +307,9 @@ function getReverseChrongameData(gameResults: GameResult[]): {
                 <button
                   className="btn btn-lg"
                   onClick={async () =>
-                    await localforage.setItem("email", emailInDialog)
+                   { const saveEmail = await localforage.setItem("email", emailInDialog);
+                    setEmailForCloudApi(saveEmail);
+                   }
                   }
                 >
                   save
